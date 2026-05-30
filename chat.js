@@ -38,7 +38,7 @@ function res(opcion, usuario) {
 
 
 function volver() {
-  window.location.href = "index.html.html";
+  window.location.href = "login.html";
 }
 
 
