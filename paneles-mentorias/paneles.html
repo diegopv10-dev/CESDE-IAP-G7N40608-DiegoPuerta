@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Mentorías Nexus | Sistema de Gestión</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #eef2f9 0%, #e0e8f2 100%);
+            min-height: 100vh;
+            padding: 2rem 1.5rem;
+        }
+        .video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .back-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+        }
+        .professional-next{
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: fit-content;
+            margin: 30px auto 50px auto;
+            padding: 12px 24px;
+            border-radius: 40px;
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .professional-next .text{
+            opacity: 0;
+            max-width: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .professional-next:hover .text{
+            opacity: 1;
+            max-width: 200px;
+        }
+
+        .professional-next:hover{
+            background: #d0d1d1;
+            transform: translateY(-3px);
+        }
+
+        .professional-next a{
+            text-decoration: none;
+            color: #2c5a7a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        @media (min-width:300px) and (max-width:768px) {
+
+        .professional-next{
+            margin: 50px auto 20px auto;
+            padding: 10px 18px;
+        }
+
+        .professional-next a{
+            font-size: 16px;
+        }
+
+        .professional-next .text{
+            opacity: 1;
+            max-width: 200px;
+        }
+        .role-selector{
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .role-btn{
+            width: 100%;
+        }
+        }
+        .app-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        
+        .main-header {
+            background: rgba(255,255,255,0.65);
+            backdrop-filter: blur(12px);
+            border-radius: 2rem;
+            padding: 1rem 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.02);
+            border: 1px solid rgba(255,255,255,0.7);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-area h1 {
+            font-size: 1.7rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1A2A3F, #2C4C6E);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+        }
+
+        .logo-area p {
+            font-size: 0.8rem;
+            color: #2c5a7a;
+            font-weight: 500;
+        }
+
+        .role-selector {
+            background: white;
+            padding: 0.4rem 1rem;
+            border-radius: 3rem;
+            display: flex;
+            gap: 0.6rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+
+        .role-btn {
+            border: none;
+            background: transparent;
+            padding: 0.5rem 1.2rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #2c3e4e;
+        }
+
+        .role-btn.active {
+            background: #1f6392;
+            color: white;
+            box-shadow: 0 4px 8px rgba(31,99,146,0.2);
+        }
+
+        .role-btn:not(.active):hover {
+            background: #e2eaf1;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.8rem;
+            margin-bottom: 2rem;
+        }
+
+        .card-panel {
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(4px);
+            border-radius: 1.8rem;
+            padding: 1.4rem 1.2rem 1.8rem 1.2rem;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid rgba(255,255,255,0.8);
+        }
+
+        .card-panel:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 22px 40px rgba(0,0,0,0.12);
+        }
+
+        .panel-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 5px solid #2c7cb6;
+            padding-left: 0.9rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .panel-badge {
+            background: #eef2fc;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.8rem;
+            color: #1f6392;
+        }
+
+        .mentoria-list, .horario-list {
+            max-height: 260px;
+            overflow-y: auto;
+            margin: 1rem 0;
+        }
+
+        .mentoria-item, .slot-item {
+            background: #f8fafd;
+            border-radius: 1rem;
+            padding: 0.7rem 1rem;
+            margin-bottom: 0.7rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            border-left: 3px solid #6c9ebf;
+            transition: all 0.1s;
+        }
+
+        .slot-item {
+            border-left-color: #f4b942;
+        }
+
+        .info {
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+
+        .info strong {
+            color: #1f4e6e;
+        }
+
+        .btn-action {
+            background: white;
+            border: 1px solid #cbdde9;
+            padding: 0.3rem 0.9rem;
+            border-radius: 2rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.15s;
+            color: #2c5a7a;
+        }
+
+        .btn-action.primary {
+            background: #1f6392;
+            border-color: #1f6392;
+            color: white;
+        }
+
+        .btn-action.primary:hover {
+            background: #0a4b70;
+        }
+
+        .btn-action:hover {
+            background: #e6f0f7;
+            transform: scale(0.96);
+        }
+
+        .form-group {
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        input, select {
+            padding: 0.5rem 0.9rem;
+            border-radius: 2rem;
+            border: 1px solid #caddf0;
+            background: white;
+            font-size: 0.8rem;
+            flex: 1;
+            outline: none;
+            transition: 0.1s;
+        }
+
+        input:focus, select:focus {
+            border-color: #1f6392;
+            box-shadow: 0 0 0 2px rgba(31,99,146,0.2);
+        }
+
+        .btn-small {
+            background: #eef2fa;
+            border: none;
+            border-radius: 2rem;
+            padding: 0.4rem 1rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .empty-message {
+            color: #8ba0ae;
+            font-style: italic;
+            font-size: 0.8rem;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .admin-controls {
+            margin-top: 1rem;
+            border-top: 1px dashed #cbdfec;
+            padding-top: 1rem;
+        }
+
+        .footer-note {
+            text-align: center;
+            font-size: 0.7rem;
+            color: #4c6f8c;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+<div class="video-container">
+    <video autoplay loop muted playsinline class="back-video">
+        <source src="video/mentoria.mp4" type="video/mp4">
+    </video>
+</div>
+<div class="arrows-version">
+    <div class="professional-next">
+        <a href="./mentorias.html">
+        <span class="text">Siguiente</span>
+        <span>→</span>
+        </a>
+    </div>
+</div>
+<div class="app-container">
+    <div class="main-header">
+        <div class="logo-area">
+            <h1>📚 Sistema de Mentorías</h1>
+            <p>RF 005 · Paneles activos: Estudiante · Docente · Administrador</p>
+        </div>
+        <div class="role-selector" id="roleSelector">
+            <button data-role="student" class="role-btn active">🎓 Estudiante</button>
+            <button data-role="teacher" class="role-btn">👩‍🏫 Docente</button>
+            <button data-role="admin" class="role-btn">⚙️ Administrador</button>
+        </div>
+    </div>
+
+    <div id="dynamicPanels" class="dashboard">
+    </div>
+    <div class="footer-note">
+        Sistema de gestión de mentorías para estudiantes y docentes.
+    </div>
+</div>
+
+<script>
+    let mentorias = [
+        { id: "m1", estudiante: "Ana López", tema: "Fundamentos de JavaScript", docente: "Pendiente", horario: "Por asignar", estado: "pendiente" },
+        { id: "m2", estudiante: "Andres Zapata", tema: "Matematicas", docente: "Pendiente", horario: "Por asignar", estado: "pendiente" },
+        { id: "m3", estudiante: "Carlos Restrepo", tema: "Estructuras de Datos", docente: "Pendiente", horario: "Por asignar", estado: "pendiente" },
+        { id: "m4", estudiante: "Valentina Cuartas", tema: "Matematicas", docente: "Pendiente", horario: "Por asignar", estado: "pendiente" },
+    ];
+    
+    let horariosDocentes = [
+        { id: "h1", docente: "Prof. Juan Perez", diaHora: "Lunes 10:00 - 11:30", disponible: true },
+        { id: "h2", docente: "Prof. Ana Gomez", diaHora: "Miércoles 14:00 - 15:30", disponible: true },
+        { id: "h3", docente: "Prof. Carlos Ruiz", diaHora: "Viernes 09:00 - 10:30", disponible: true },
+        { id: "h4", docente: "Prof. Laura Torres", diaHora: "Martes 18:00 - 21:30", disponible: true },
+        { id: "h5", docente: "Prof. Andres Gonzalez", diaHora: "Jueves 14:00 - 15:30", disponible: true },
+        { id: "h6", docente: "Prof. Diana Lopez", diaHora: "Viernes 09:00 - 10:30", disponible: true },
+    ];
+
+    let currentTeacherName = "Ej: Prof. Juan Perez";
+    
+    function saveData() {
+        localStorage.setItem("mentorias_data", JSON.stringify(mentorias));
+        localStorage.setItem("horarios_data", JSON.stringify(horariosDocentes));
+    }
+    
+    function loadData() {
+        const storedM = localStorage.getItem("mentorias_data");
+        const storedH = localStorage.getItem("horarios_data");
+        if(storedM) mentorias = JSON.parse(storedM);
+        if(storedH) horariosDocentes = JSON.parse(storedH);
+    }
+    loadData();
+    
+    let activeRole = "student";
+    const panelsContainer = document.getElementById("dynamicPanels");
+    
+    function solicitarMentoria(tema) {
+        if(!tema.trim()) {
+            alert("Escribe un tema para la mentoría");
+            return;
+        }
+        
+        const nombreInput = document.getElementById("nombreEstudianteInput");
+        const nombreEstudiante = nombreInput ? nombreInput.value : "Estudiante";
+        
+        if(!nombreEstudiante.trim()) {
+            alert("Escribe tu nombre");
+            return;
+        }
+        
+        const nuevaMentoria = {
+            id: Date.now().toString(),
+            estudiante: nombreEstudiante,  
+            tema: tema.trim(),
+            docente: "Pendiente",
+            horario: "Por asignar",
+            estado: "pendiente"
+        };
+        
+        mentorias.push(nuevaMentoria);
+        saveData();
+        renderPanelsByRole();
+        alert(`Mentoría "${tema}" solicitada por ${nombreEstudiante}`);
+    }
+    
+    function agregarHorario(docenteNombre, diaHora) {
+        if(!docenteNombre.trim() || !diaHora.trim()) return alert("Nombre docente y horario requeridos");
+        const nuevoSlot = {
+            id: Date.now().toString(),
+            docente: docenteNombre.trim(),
+            diaHora: diaHora.trim(),
+            disponible: true
+        };
+        horariosDocentes.push(nuevoSlot);
+        saveData();
+        renderPanelsByRole();
+    }
+    
+    function eliminarMentoria(id) {
+        mentorias = mentorias.filter(m => m.id !== id);
+        saveData();
+        renderPanelsByRole();
+    }
+    
+    function eliminarHorario(id) {
+        horariosDocentes = horariosDocentes.filter(h => h.id !== id);
+        saveData();
+        renderPanelsByRole();
+    }
+    
+    function asignarDocenteAMentoria(mentoriaId, docenteSlotId) {
+        const mentoria = mentorias.find(m => m.id === mentoriaId);
+        const slot = horariosDocentes.find(h => h.id === docenteSlotId);
+        if(mentoria && slot && slot.disponible) {
+            mentoria.docente = slot.docente;
+            mentoria.horario = slot.diaHora;
+            mentoria.estado = "asignada";
+            slot.disponible = false;   
+            saveData();
+            renderPanelsByRole();
+        } else {
+            alert("No se pudo asignar, verifique disponibilidad o existencia");
+        }
+    }
+    
+    function renderMentoriasList() {
+        if(!mentorias.length) return '<div class="empty-message">✨ Aún no hay mentorías solicitadas</div>';
+        return mentorias.map(m => `
+            <div class="mentoria-item">
+                <div class="info"><strong>${m.tema}</strong><br>🧑‍🎓 ${m.estudiante}<br>👩‍🏫 ${m.docente} · 🕒 ${m.horario}</div>
+                <span style="font-size:0.7rem; background:#eef2f5; padding:2px 8px; border-radius:40px;">${m.estado}</span>
+            </div>
+        `).join('');
+    }
+    
+    function renderHorariosList() {
+        if(!horariosDocentes.length) return '<div class="empty-message">📅 No hay horarios cargados por docentes</div>';
+        return horariosDocentes.map(h => `
+            <div class="slot-item">
+                <div><strong>${h.docente}</strong><br><span style="font-size:0.75rem;">📆 ${h.diaHora}</span></div>
+                <span style="background:${h.disponible ? '#c8e6df' : '#ffe0b5'}; padding:2px 8px; border-radius:20px; font-size:0.7rem;">${h.disponible ? 'Disponible' : 'Ocupado'}</span>
+            </div>
+        `).join('');
+    }
+    
+    function renderAdminMentorias() {
+        if(!mentorias.length) return '<div class="empty-message">Sin mentorías</div>';
+        return mentorias.map(m => `
+            <div style="display:flex; justify-content:space-between; align-items:center; background:#f9f9ff; margin-bottom:6px; padding:5px 8px; border-radius:16px;">
+                <div style="font-size:0.75rem;"><strong>${m.tema}</strong><br>${m.estudiante} → ${m.docente} / ${m.horario}</div>
+                <button class="btn-action delete-mentoria-admin" data-id="${m.id}" style="background:#ffe0e0;">🗑️</button>
+            </div>
+        `).join('');
+    }
+    
+    function renderAdminHorarios() {
+        if(!horariosDocentes.length) return '<div class="empty-message">No hay horarios</div>';
+        return horariosDocentes.map(h => `
+            <div style="display:flex; justify-content:space-between; align-items:center; background:#f9f9ff; margin-bottom:6px; padding:5px 8px; border-radius:16px;">
+                <div style="font-size:0.75rem;">👩‍🏫 ${h.docente} · 🕒 ${h.diaHora} · ${h.disponible ? '✅ libre' : '⛔ asignado'}</div>
+                <button class="btn-action delete-horario-admin" data-id="${h.id}" style="background:#ffe0e0;">❌</button>
+            </div>
+        `).join('');
+    }
+    
+    function renderPanelsByRole() {
+        if(!panelsContainer) return;
+        
+        const html = `
+            <!-- PANEL ESTUDIANTE -->
+            <div class="card-panel" id="panel-estudiante">
+                <div class="panel-title">
+                    🎓 Estudiante · Solicitar Mentoría
+                    <span class="panel-badge">RF-005</span>
+                </div>
+                <div class="mentoria-list" id="lista-mentorias-estudiante">
+                    ${renderMentoriasList()}
+                </div>
+                <div class="form-group">
+                    <div class="form-row">
+                        <input type="text" id="nombreEstudianteInput" placeholder="Tu nombre" />
+                        <input type="text" id="temaMentoriaInput" placeholder="Ej: Álgebra lineal, React avanzado..." />
+                        <button class="btn-action primary" id="btnSolicitarMentoria">➕ Solicitar</button>
+                    </div>
+                    <small style="color:#526e82;">Como estudiante, puedes pedir mentorías nuevas</small>
+                </div>
+            </div>
+            
+            <!-- PANEL DOCENTE -->
+            <div class="card-panel" id="panel-docente">
+                <div class="panel-title">
+                    👩‍🏫 Docente · Disponer horarios
+                    <span class="panel-badge">Horarios disponibles</span>
+                </div>
+                <div class="horario-list" id="lista-horarios-docente">
+                    ${renderHorariosList()}
+                </div>
+                <div class="form-group">
+                    <div class="form-row">
+                        <input type="text" id="nombreDocenteInput" placeholder="Nombre docente" value="${currentTeacherName}" />
+                        <input type="text" id="diaHoraInput" placeholder="Ej: Jueves 16:00 - 17:30" />
+                        <button class="btn-action primary" id="btnAgregarHorario">➕ Agregar franja</button>
+                    </div>
+                    <small>Los docentes disponen horarios para mentorías</small>
+                </div>
+            </div>
+            
+            <!-- PANEL ADMINISTRADOR -->
+            <div class="card-panel" id="panel-admin">
+                <div class="panel-title">
+                    ⚙️ Administrador · Cambios y gestión
+                    <span class="panel-badge">Control total</span>
+                </div>
+                <div style="margin-bottom: 12px;"><strong>📋 Mentorías registradas</strong></div>
+                <div id="admin-mentorias-list" style="max-height: 170px; overflow-y: auto; margin-bottom: 1rem;">
+                    ${renderAdminMentorias()}
+                </div>
+                <div style="margin-bottom: 8px;"><strong>⏰ Horarios de docentes</strong></div>
+                <div id="admin-horarios-list" style="max-height: 150px; overflow-y: auto;">
+                    ${renderAdminHorarios()}
+                </div>
+                <div class="admin-controls">
+                    <div><strong>🔧 Asignación rápida</strong></div>
+                    <div class="form-row" style="margin-top: 6px;">
+                        <select id="adminSelectMentoria" style="flex:2;">
+                            <option value="">-- Seleccionar mentoría --</option>
+                            ${mentorias.map(m => `<option value="${m.id}">${m.tema} (${m.estudiante})</option>`).join('')}
+                        </select>
+                        <select id="adminSelectHorario" style="flex:2;">
+                            <option value="">-- Horario disponible --</option>
+                            ${horariosDocentes.filter(h => h.disponible === true).map(h => `<option value="${h.id}">${h.docente} · ${h.diaHora}</option>`).join('')}
+                        </select>
+                        <button class="btn-action primary" id="btnAsignarAdmin">Asignar</button>
+                    </div>
+                    <small class="empty-message" style="font-size:0.7rem;">El admin puede eliminar ítems o asignar mentorías a horarios</small>
+                </div>
+            </div>
+        `;
+        
+        panelsContainer.innerHTML = html;
+        
+        const solicitarBtn = document.getElementById("btnSolicitarMentoria");
+        if(solicitarBtn) {
+            solicitarBtn.onclick = () => {
+                if(activeRole !== 'student') {
+                    alert("Cambia al rol de Estudiante para solicitar mentorías.");
+                    return;
+                }
+                const temaInput = document.getElementById("temaMentoriaInput");
+                if(temaInput && temaInput.value.trim()) {
+                    solicitarMentoria(temaInput.value);
+                    temaInput.value = '';
+                } else {
+                    alert("Escribe un tema para la mentoría");
+                }
+            };
+        }
+        
+        const agregarHorarioBtn = document.getElementById("btnAgregarHorario");
+        if(agregarHorarioBtn) {
+            agregarHorarioBtn.onclick = () => {
+                if(activeRole !== 'teacher') {
+                    alert("Cambia al rol Docente para disponer horarios.");
+                    return;
+                }
+                const nombreDoc = document.getElementById("nombreDocenteInput");
+                const diaHora = document.getElementById("diaHoraInput");
+                if(nombreDoc && diaHora && nombreDoc.value.trim() && diaHora.value.trim()) {
+                    agregarHorario(nombreDoc.value, diaHora.value);
+                    diaHora.value = '';
+                } else {
+                    alert("Completa el nombre del docente y el horario");
+                }
+            };
+        }
+        
+        document.querySelectorAll('.delete-mentoria-admin').forEach(btn => {
+            btn.onclick = (e) => {
+                e.stopPropagation();
+                if(activeRole !== 'admin') {
+                    alert("Solo el administrador puede eliminar mentorías.");
+                    return;
+                }
+                const id = btn.getAttribute('data-id');
+                if(id && confirm("¿Eliminar esta mentoría?")) eliminarMentoria(id);
+            };
+        });
+        
+        document.querySelectorAll('.delete-horario-admin').forEach(btn => {
+            btn.onclick = (e) => {
+                e.stopPropagation();
+                if(activeRole !== 'admin') {
+                    alert("Solo el administrador puede eliminar horarios.");
+                    return;
+                }
+                const id = btn.getAttribute('data-id');
+                if(id && confirm("Eliminar franja horaria?")) eliminarHorario(id);
+            };
+        });
+        
+        const btnAsignar = document.getElementById("btnAsignarAdmin");
+        if(btnAsignar) {
+            btnAsignar.onclick = () => {
+                if(activeRole !== 'admin') {
+                    alert("Solo administrador puede asignar mentorías.");
+                    return;
+                }
+                const mentoriaSelect = document.getElementById("adminSelectMentoria");
+                const horarioSelect = document.getElementById("adminSelectHorario");
+                if(mentoriaSelect && horarioSelect && mentoriaSelect.value && horarioSelect.value) {
+                    asignarDocenteAMentoria(mentoriaSelect.value, horarioSelect.value);
+                } else {
+                    alert("Selecciona una mentoría y un horario disponible.");
+                }
+            };
+        }
+    }
+    
+    function setActiveRole(role) {
+        activeRole = role;
+        document.querySelectorAll('.role-btn').forEach(btn => {
+            if(btn.getAttribute('data-role') === role) btn.classList.add('active');
+            else btn.classList.remove('active');
+        });
+        renderPanelsByRole();
+    }
+    
+    document.querySelectorAll('.role-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const role = btn.getAttribute('data-role');
+            setActiveRole(role);
+        });
+    });
+    
+    renderPanelsByRole();
+</script>
+</body>
+</html>

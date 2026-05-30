@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Académico</title>
+    <link rel="stylesheet" href="estilos/style.css">
+</head>
+<body>
+      <div class="video-fondo">
+        <video autoplay muted loop>
+            <source src="video/mentoria.mp4" type="video/mp4">
+             Tu navegador no soporta el elemento de video.
+        </video>
+    </div>
+
+    <div class="container">
+        <h1>📚 Sistema Académico</h1>
+        
+       
+        <div class="tabs">
+            <button class="tab-btn active" onclick="mostrarTab('rf009')">RF009 - Progreso</button>
+            <button class="tab-btn" onclick="mostrarTab('rf010')">RF010 - Mentorías</button>
+        </div>
+
+        
+        <div id="rf009" class="tab-content active">
+            <h2>📊 Seguimiento del Progreso</h2>
+            <p>Registra el avance del estudiante de 0 a 100</p>
+            
+            <div class="form">
+                <label for="estudiante">Estudiante:</label>
+                <input type="text" id="estudiante" placeholder="Nombre del estudiante">
+
+                <label>Progreso (0-100):</label>
+                <input type="range" id="progreso-slider" min="0" max="100" value="0">
+                <span id="progreso-valor">0%</span>
+
+                <label>Notas:</label>
+                <textarea id="notas-progreso" placeholder="Escribe observaciones..."></textarea>
+
+                <button onclick="guardarProgreso()">Guardar Progreso</button>
+            </div>
+
+            <h3>Registros Guardados:</h3>
+            <table id="tabla-progreso" class="tabla">
+                <tr>
+                    <th>Estudiante</th>
+                    <th>Progreso</th>
+                    <th>Notas</th>
+                    <th>Acción</th>
+                </tr>
+            </table>
+        </div>
+
+        
+        <div id="rf010" class="tab-content">
+            <h2>⭐ Evaluación de Mentorías</h2>
+            <p>Califica las mentorías de 1 a 10</p>
+            
+            <div class="form">
+                <label>Mentor:</label>
+                <select id="mentor">
+                    <option>Seleccione mentor</option>
+                    <option>Prof. García</option>
+                    <option>Prof. Rodríguez</option>
+                    <option>Prof. Torres</option>
+                </select>
+
+                <label>Calificación (1-10):</label>
+                <input type="range" id="calificacion-slider" min="1" max="10" value="1">
+                <span id="calificacion-valor">1/10</span>
+
+                <label>Comentarios:</label>
+                <textarea id="comentarios-mentoria" placeholder="Deja tu comentario..."></textarea>
+
+                <button onclick="guardarMentoria()">Guardar Evaluación</button>
+            </div>
+
+            <h3>Evaluaciones Guardadas:</h3>
+            <table id="tabla-mentoria" class="tabla">
+                <tr>
+                    <th>Mentor</th>
+                    <th>Calificación</th>
+                    <th>Comentarios</th>
+                    <th>Acción</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <script src="script/script.js"></script>
+</body>
+</html>

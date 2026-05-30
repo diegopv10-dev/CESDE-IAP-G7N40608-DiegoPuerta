@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+   <link rel="stylesheet" href="solo estilos/styles (1).css">
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Docente</title>
+   <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+    .contenedor {
+      background: #6c404f;
+      margin-top: 30vh;
+      border: 3px solid rgb(122, 136, 164);
+      padding: 20px;
+      text-align: center;
+      width: 30%;                
+      box-sizing: border-box;
+    }
+    input, button {
+      width: 50%;
+      margin: 5px 0;
+    }
+   </style>
+</head>
+<body>
+  <div class="contenedor">
+    <h1>Bienvenido Docente</h1>
+    <div id="solicitudes">
+      <button onclick="res('aceptada','Docente')">Aceptar</button>
+      <button onclick="res('rechazada','Docente')">Rechazar</button>
+    </div>
+    <p id="msg"></p>
+    <h2>Mensaje</h2>
+    <input id="chatMsg" type="text" placeholder="Escriba...">
+    <button onclick="enviar('Docente')">Enviar</button>
+    <br><br>
+    <button onclick="borrar()">Borrar</button>
+    <button onclick="volver()">Volver</button>
+    <div id="chat"></div>
+  </div>
+  <script src="chat.js">function volver() {
+  window.location.href = "index.html.html";
+}
+</script>
+</body>
+</html>
+
