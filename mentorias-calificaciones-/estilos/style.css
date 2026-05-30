@@ -1,0 +1,517 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.video-fondo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+}
+
+.video-fondo video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+h1 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 28px;
+}
+
+h2 {
+    color: #667eea;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+h3 {
+    color: #333;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+p {
+    color: #666;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+
+.tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #ddd;
+}
+
+.tab-btn {
+    padding: 12px 20px;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    color: #999;
+    transition: 0.3s;
+}
+
+.tab-btn.active {
+    color: #667eea;
+    border-bottom-color: #667eea;
+}
+
+.tab-btn:hover {
+    color: #667eea;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+
+.form {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.form label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+    font-size: 14px;
+}
+
+.form input[type="text"],
+.form input[type="number"],
+.form input[type="range"],
+.form select,
+.form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+.form input[type="range"] {
+    padding: 0;
+    cursor: pointer;
+}
+
+.form textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.form button {
+    background: #667eea;
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: 0.3s;
+}
+
+.form button:hover {
+    background: #5568d3;
+}
+
+
+#progreso-valor,
+#calificacion-valor {
+    font-weight: bold;
+    color: #667eea;
+    margin-left: 10px;
+}
+
+
+.tabla {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.tabla th {
+    background: #667eea;
+    color: white;
+    padding: 12px;
+    text-align: left;
+    font-weight: bold;
+}
+
+.tabla td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.tabla tr:hover {
+    background: #f9f9f9;
+}
+
+.tabla button {
+    background: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.tabla button:hover {
+    background: #ee5a4a;
+}
+
+.vacio {
+    text-align: center;
+    color: #999;
+    padding: 20px;
+}
+/* ==========================================
+   1. VARIABLES Y CONFIGURACIÓN BASE
+   ========================================== */
+:root {
+    --primary-color: #4a90e2;
+    --primary-hover: #357abd;
+    --danger-color: #e74c3c;
+    --danger-hover: #c0392b;
+    --bg-card: rgba(255, 255, 255, 0.95);
+    --text-color: #333;
+    --border-radius: 8px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* ==========================================
+   2. VIDEO DE FONDO (RESPONSIVO)
+   ========================================== */
+.video-fondo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.video-fondo video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ==========================================
+   3. CONTENEDOR PRINCIPAL
+   ========================================== */
+.container {
+    background: var(--bg-card);
+    width: 100%;
+    max-width: 800px; /* Límite de ancho en escritorio */
+    padding: 30px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+}
+
+h2 {
+    margin-bottom: 10px;
+    font-size: 1.4rem;
+}
+
+p {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* ==========================================
+   4. PESTAÑAS (TABS)
+   ========================================== */
+.tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.tab-btn {
+    flex: 1; /* Se dividen el espacio equitativamente */
+    padding: 12px;
+    background: #eee;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.95rem;
+    transition: background 0.3s, color 0.3s;
+}
+
+.tab-btn:hover {
+    background: #ddd;
+}
+
+.tab-btn.active {
+    background: var(--primary-color);
+    color: white;
+}
+
+/* Lógica de ocultar/mostrar pestañas */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* ==========================================
+   5. FORMULARIOS (GRID RESPONSIVO)
+   ========================================== */
+.form {
+    display: grid;
+    grid-template-columns: 1fr; /* Una sola columna por defecto (móvil) */
+    gap: 15px;
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    margin-bottom: 30px;
+    border: 1px solid #eee;
+}
+
+label {
+    font-weight: 600;
+    margin-bottom: -5px;
+}
+
+input[type="text"],
+select,
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Contenedor del slider para alinear el número al lado */
+.form div-slider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+input[type="range"] {
+    flex: 1;
+    cursor: pointer;
+}
+
+#progreso-valor, #calificacion-valor {
+    font-weight: bold;
+    min-width: 45px;
+    text-align: right;
+}
+
+button {
+    padding: 12px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: background 0.2s;
+}
+
+button:hover {
+    background: var(--primary-hover);
+}
+
+.btn-eliminar {
+    background: var(--danger-color);
+    padding: 6px 12px;
+    font-size: 0.85rem;
+}
+
+.btn-eliminar:hover {
+    background: var(--danger-hover);
+}
+
+/* ==========================================
+   6. TABLAS (MÓVIL FRIENDLY)
+   ========================================== */
+h3 {
+    margin-bottom: 15px;
+}
+
+.tabla {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 0.95rem;
+}
+
+.tabla th, .tabla td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+.tabla th {
+    background-color: #f2f2f2;
+    font-weight: 600;
+}
+
+/* ==========================================
+   7. MEDIA QUERIES (ADAPTACIÓN DE PANTALLAS)
+   ========================================== */
+
+/* --- Tablets y Escritorio pequeño (Dispositivos > 600px) --- */
+@media (min-width: 600px) {
+    .container {
+        padding: 40px;
+    }
+
+    h1 {
+        font-size: 2.2rem;
+    }
+
+    /* El formulario pasa de 1 columna a un diseño de fila más limpio si es necesario */
+    .form {
+        gap: 18px;
+    }
+}
+
+/* --- Teléfonos Inteligentes muy pequeños (Pantallas < 480px) --- */
+@media (max-width: 480px) {
+    body {
+        padding: 10px; /* Menos margen en los bordes de la pantalla */
+    }
+
+    .container {
+        padding: 15px;
+    }
+
+    /* Las pestañas se apilan verticalmente si los nombres de los botones son largos */
+    .tabs {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    /* TRUCO MAESTRO PARA TABLAS EN MÓVIL: 
+       Transforma la tabla rígida en bloques verticales legibles */
+    .tabla, .tabla tbody, .tabla tr, .tabla th, .tabla td {
+        display: block;
+    }
+
+    .tabla tr {
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: var(--border-radius);
+        background: #fff;
+        padding: 5px;
+    }
+
+    .tabla th {
+        display: none; /* Escondemos el encabezado horizontal */
+    }
+
+    .tabla td {
+        border: none;
+        position: relative;
+        padding-left: 50%; /* Deja espacio para simular un "label" a la izquierda */
+        text-align: right;  /* Mueve el valor real a la derecha */
+        border-bottom: 1px dashed #eee;
+    }
+
+    .tabla td:last-child {
+        border-bottom: none;
+        text-align: center; /* Centra el botón eliminar */
+        padding-left: 12px;
+    }
+
+    /* Inyectamos los títulos correspondientes mediante pseudo-elementos */
+    #tabla-progreso td:nth-of-type(1)::before { content: "Estudiante:"; }
+    #tabla-progreso td:nth-of-type(2)::before { content: "Progreso:"; }
+    #tabla-progreso td:nth-of-type(3)::before { content: "Notas:"; }
+    #tabla-progreso td:nth-of-type(4)::before { content: "Acción:"; }
+
+    #tabla-mentoria td:nth-of-type(1)::before { content: "Mentor:"; }
+    #tabla-mentoria td:nth-of-type(2)::before { content: "Calificación:"; }
+    #tabla-mentoria td:nth-of-type(3)::before { content: "Comentarios:"; }
+    #tabla-mentoria td:nth-of-type(4)::before { content: "Acción:"; }
+
+    .tabla td::before {
+        position: absolute;
+        left: 12px;
+        width: 45%;
+        text-align: left;
+        font-weight: bold;
+        color: #555;
+    }
+}
