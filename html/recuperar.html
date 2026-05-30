@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recuperar contraseña</title>
+    <link rel="stylesheet" href="../CSS/styles.css" />
+
+    
+  </head>
+  <body>
+    <section class="p">
+      <form id="formRecuperar">
+        <label for="correo"> Ingresa tu correo electrónico: </label><br />
+        <input type="email" id="correo" name="correo" required /><br /><br />
+
+        <button type="submit"> Recuperar contraseña </button><br /><br />
+      </form>
+      <p><a href="../index.html" class="cta">Volver al inicio</a></p>
+    </section>
+
+    <div id="miModal" class="modal">
+  <p>Correo de recuperación enviado correctamente. </p>
+  <button onclick="cerrarModal()">Cerrar</button>
+</div>
+
+<script>
+const form = document.getElementById("formRecuperar");
+const modal = document.getElementById("miModal");
+
+form.addEventListener("submit", function(event) {
+    event.preventDefault();
+    modal.style.display = "block";
+});
+
+function cerrarModal() {
+    modal.style.display = "none";
+}
+</script>
+  </body>
+</html>
