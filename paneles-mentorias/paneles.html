@@ -336,7 +336,7 @@
 <body>
 <div class="video-container">
     <video autoplay loop muted playsinline class="back-video">
-        <source src="video/mentoria.mp4" type="video/mp4">
+        <source src="./video/mentoria.mp4" type="video/mp4">
     </video>
 </div>
 <div class="arrows-version">
@@ -354,9 +354,11 @@
             <p>· Paneles activos: Estudiante · Docente · Administrador</p>
         </div>
         <div class="role-selector" id="roleSelector">
+            <button onclick="location.href='../mentorias-calificaciones-/calificaciones.html'" class="role-btn">😎 consultar notas</button>
             <button data-role="student" class="role-btn active">🎓 Estudiante</button>
             <button data-role="teacher" class="role-btn">👩‍🏫 Docente</button>
             <button data-role="admin" class="role-btn">⚙️ Administrador</button>
+            <button onclick="location.href='../roles.html'" class="role-btn">🔒 Cerrar Sesión</button>
         </div>
     </div>
 

@@ -72,9 +72,8 @@ function procesarLogin(username, password) {
         if (validarCredenciales(username, password)) {
             localStorage.setItem('usuarioActual', username);
             localStorage.setItem('rolActual', rolSeleccionado);
-            
-            const pagina = rolesInfo[rolSeleccionado].pagina;
-            window.location.href = pagina;
+
+            window.location.href = "paneles-mentorias/paneles.html";
         } else {
             btn.disabled = false;
             btn.textContent = textoOriginal;
